@@ -321,6 +321,7 @@ class SipDigestCrack:
                         pwd = pwd.replace('\n', '')
                         pwd = pwd.strip()
                         pwd = pwd[0:50]
+                        pwd = '%s%s%s' % (self.prefix, pwd, self.suffix)
 
                         if pwd != '' and pwd != '#' and isascii == 1:
                             print(
