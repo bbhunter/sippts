@@ -952,6 +952,7 @@ def fingerprinting(method, msg, headers, verbose):
                 fp.append('SylkServer')
                 fp.append('ESI')
                 fp.append('ClearlyIP')
+                fp.append('OBIHAI')
         m = re.search('^[a-z0-9A-Z]{11}.[a-z0-9A-Z]{32}.[0-9]{1}$', tag)
         if m:
             fp.append('Asterisk PBX')
@@ -976,9 +977,11 @@ def fingerprinting(method, msg, headers, verbose):
         if m:
             fp.append('SEMS')
         m = re.search('^[0-9]{10}$', tag)
-        if m and ua[0:4] == 'Desk' and ua[5:10] == 'Phone':
-            fp.clear()
-            fp.append('OpenScape')
+        if m:
+            fp.append('M5T')
+            if ua[0:4] == 'Desk' and ua[5:10] == 'Phone':
+                fp.clear()
+                fp.append('OpenScape')
         m = re.search('^[0-9A-F]{3,4}$', tag)
         if m:
             fp.append('OneAccess')
@@ -986,7 +989,7 @@ def fingerprinting(method, msg, headers, verbose):
         if m:
             fp.append('Yeti')
         m = re.search('^[0-9a-z]{10}$', tag)
-        if m:
+        if m and tag[0:2] != 'as':
             fp.append('Brekeke')
 
         if fp == []:
