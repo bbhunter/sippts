@@ -248,11 +248,15 @@ class SipSend:
             rescode = '100'
 
             while rescode[:1] == '1':
-                # receive temporary code
-                if self.proto == 'TLS':
-                    resp = sock_ssl.recv(4096)
-                else:
-                    resp = sock.recv(4096)
+                try:
+                    # receive temporary code
+                    if self.proto == 'TLS':
+                        resp = sock_ssl.recv(4096)
+                    else:
+                        resp = sock.recv(4096)
+                except socket.timeout:
+                    print(self.c.RED + '[!] Socket timeout' + self.c.WHITE)
+                    sys.exit()
 
                 headers = parse_message(resp.decode())
 

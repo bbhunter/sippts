@@ -25,7 +25,6 @@ __email__ = "pepeluxx@gmail.com"
 #                                                               (Phone 1 && phone 2)
 
 import socket
-import sre_compile
 import sys
 import ssl
 import re
@@ -124,7 +123,7 @@ class SipInvite:
                 if self.verbose == 1:
                     fw.write(msg + '\n')
 
-            sock.settimeout(15)
+            sock.settimeout(5)
 
             if self.proto == 'TCP':
                 sock.connect(host)
@@ -144,12 +143,16 @@ class SipInvite:
                 rescode = '100'
 
                 while rescode[:1] == '1':
-                    # receive temporary code
-                    if self.proto == 'TLS':
-                        resp = sock_ssl.recv(4096)
-                    else:
-                        resp = sock.recv(4096)
-
+                    try:
+                        # receive temporary code
+                        if self.proto == 'TLS':
+                            resp = sock_ssl.recv(4096)
+                        else:
+                            resp = sock.recv(4096)
+                    except socket.timeout:
+                        print(self.c.RED + '[!] Socket timeout' + self.c.WHITE)
+                        sys.exit()
+                    
                     headers = parse_message(resp.decode())
 
                     if headers:
