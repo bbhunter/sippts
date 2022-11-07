@@ -201,6 +201,7 @@ class SipScan:
                             end_ip = val[1]
 
                             error = 1
+
                 try:
                     if error == 0:
                         hlist = list(ipaddress.ip_network(str(i)).hosts())
@@ -233,6 +234,8 @@ class SipScan:
                                     print(self.c.GREEN + '\n   [-] ... Pong %s' %
                                           str(long2ip(i)) + self.c.WHITE)
                                     ips.append(long2ip(i))
+                            
+                    self.prepare_scan(ips, ports, protos, iplist)
                 except:
                     pass
 
