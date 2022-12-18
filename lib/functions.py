@@ -1012,7 +1012,7 @@ def fingerprinting(method, msg, headers, verbose):
         if m:
             fp.append('Yeti')
         m = re.search('^[0-9a-z]{10}$', tag)
-        if m:
+        if m and tag[0:2] != 'as':
             fp.append('Brekeke')
             fp.append('MediaCore')
             fp.append('XiVO')
